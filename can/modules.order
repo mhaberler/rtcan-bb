@@ -1,0 +1,2 @@
+kernel/drivers/xenomai/can/xeno_can.ko
+kernel/drivers/xenomai/can/xeno_can_virt.ko
