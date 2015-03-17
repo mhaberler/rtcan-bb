@@ -1,0 +1,36 @@
+#!/bin/bash
+set -x
+
+# just in case  serially reusable:
+rmmod xeno_can rtcan_c_can
+
+config-pin overlay cape-universal
+config-pin P9.24 can
+config-pin P9.26 can
+
+modprobe can
+modprobe can-dev
+modprobe can-raw
+
+
+# remove vanilla can modules again:
+sleep 1
+rmmod c_can_platform c_can
+sleep 1
+rmmod can_dev can_raw can
+sleep 1
+
+# load the rtcan mods
+modprobe xeno_can 
+modprobe rtcan_c_can
+
+sleep 1
+
+rtcanconfig rtcan0 -b 1000000 start
+rtcanconfig rtcan1 -b 1000000 start
+
+
+# trinamic motor, relative move
+
+rtcansend rtcan1 --verbose --identifier=0x1  0x04 0x01 0x00 0x00 0x0f 0xff 0xe7 0x00
+
