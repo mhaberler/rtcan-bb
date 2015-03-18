@@ -1,0 +1,29 @@
+NB: this is only for the socketcan stack, not RT-CAN, but good for exploring nevertheless
+this was done on BB
+
+
+#install mercurial
+sudo apt-get install mercurial
+
+# clone repo
+hg clone https://bitbucket.org/hardbyte/python-can
+cd python-can
+sudo python setup.py install
+cd ..
+
+# add file can.conf in your come dir so python-can knows what to do how:
+
+mah@epig:~/python-can/examples$ cat /home/mah/can.conf
+
+[default]
+interface = socketcan_ctypes
+channel = can1
+
+
+# start the stack
+cd rtcan-test
+sudo ./can-test
+
+# this example uses python-can:
+
+python trimove.py
